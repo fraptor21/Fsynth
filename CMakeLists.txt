@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Подключение JUCE (предполагается, что JUCE лежит в подпапке JUCE/)
-add_subdirectory(JUCE)
+add_subdirectory(../JUCE JUCE)
 
 juce_add_plugin(PolySynth
     COMPANY_NAME "YourCompany"
