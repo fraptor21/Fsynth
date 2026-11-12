@@ -34,17 +34,17 @@ jobs:
       if: runner.os == 'Windows'
       run: |
         mkdir artifact
-        Compress-Archive -Path "build/Fsynth_artefacts/Release/VST3/Fsynth.vst3" -DestinationPath "artifact/Fsynth-Windows-VST3.zip"
+        Compress-Archive -Path "build/PolySynth_artefacts/Release/VST3/Fsynth.vst3" -DestinationPath "artifact/Fsynth-Windows-VST3.zip"
 
     - name: Prepare Artifact (macOS)
       if: runner.os == 'macOS'
       run: |
         mkdir artifact
-        cd build/Fsynth_artefacts/Release
+        cd build/PolySynth_artefacts/Release
         zip -r $GITHUB_WORKSPACE/artifact/Fsynth-macOS-VST3.zip VST3/Fsynth.vst3
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: Fsynth-${{ runner.os }}-VST3
+        name: PolySynth-${{ runner.os }}-VST3
         path: artifact/
