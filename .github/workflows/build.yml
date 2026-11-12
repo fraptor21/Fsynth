@@ -41,7 +41,7 @@ jobs:
       run: |
         mkdir artifact
         cd build/PolySynth_artefacts/Release
-        zip -r $GITHUB_WORKSPACE/artifact/Fsynth-macOS-VST3.zip VST3/Fsynth.vst3
+        zip -r $GITHUB_WORKSPACE/artifact/Fsynth-macOS-VST3.zip VST3/PolySynth.vst3
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
