@@ -1,0 +1,50 @@
+name: Build VST3 Plugin
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Позволяет запускать сборку вручную
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Clone JUCE
+      run: git clone --depth 1 --branch 7.0.12 https://github.com/juce-framework/JUCE.git ../JUCE
+
+    - name: Configure CMake (Windows)
+      if: runner.os == 'Windows'
+      run: cmake -B build -G "Visual Studio 17 2022" -A x64
+
+    - name: Configure CMake (macOS)
+      if: runner.os == 'macOS'
+      run: cmake -B build -G Xcode -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"
+
+    - name: Build
+      run: cmake --build build --config Release
+
+    - name: Prepare Artifact (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        mkdir artifact
+        Compress-Archive -Path "build/Fsynth_artefacts/Release/VST3/Fsynth.vst3" -DestinationPath "artifact/Fsynth-Windows-VST3.zip"
+
+    - name: Prepare Artifact (macOS)
+      if: runner.os == 'macOS'
+      run: |
+        mkdir artifact
+        cd build/Fsynth_artefacts/Release
+        zip -r $GITHUB_WORKSPACE/artifact/Fsynth-macOS-VST3.zip VST3/Fsynth.vst3
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Fsynth-${{ runner.os }}-VST3
+        path: artifact/
