@@ -22,9 +22,9 @@ juce_add_plugin(PolySynth
 )
 
 target_sources(PolySynth PRIVATE
-    Source/PluginProcessor.cpp
-    Source/PluginEditor.cpp
-    Source/SynthVoice.cpp
+    source/PluginProcessor.cpp
+    source/PluginEditor.cpp
+    source/SynthVoice.cpp
 )
 
 target_compile_definitions(PolySynth PUBLIC
